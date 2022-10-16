@@ -15,46 +15,27 @@
  */
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> list = new ArrayList<>();
-        ArrayList<Integer> listInner;
+        List<List<Integer>> res = new ArrayList<>();
+        if(root == null) return res;
         
-        if(root == null)
-            return list;
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-
-        while(queue.size() > 0) {
-            int size = queue.size();
-            listInner = new ArrayList<>();
-            while(size-- != 0){
-                TreeNode node = queue.poll();
-                if(node.left != null){
-                    queue.add(node.left);
-                }
-                if(node.right != null){
-                    queue.add(node.right);
-                }
-                listInner.add(node.val);
-            }
-            list.add(listInner);
-        }
-        return list;
+        levelOrderHelper(res, root, 0);
+        return res;
     }
     
-//     public void levelOrderHelper(List<List<Integer>> res, TreeNode root, int level) {
-//         if(root == null) return;
-//         List<Integer> curr;
+    public void levelOrderHelper(List<List<Integer>> res, TreeNode root, int level) {
+        if(root == null) return;
+        List<Integer> curr;
         
-//         if(res.get( ) == null){
-//             curr = new ArrayList<>();
-//             curr.add(root.val);
-//             res.add(curr);
-//         }else{
-//             curr = res.get(level);
-//             curr.add(root.val);
-//         }
+        if(res.size() <= level){
+            curr = new ArrayList<>();
+            curr.add(root.val);
+            res.add(curr);
+        }else{
+            curr = res.get(level);
+            curr.add(root.val);
+        }
         
-//         levelOrderHelper(res, root.left, level + 1);
-//         levelOrderHelper(res, root.right, level + 1);
-//     }
+        levelOrderHelper(res, root.left, level + 1);
+        levelOrderHelper(res, root.right, level + 1);
+    }
 }
